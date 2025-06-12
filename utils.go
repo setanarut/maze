@@ -5,9 +5,11 @@ import (
 	"image/color"
 	"image/png"
 	"os"
+
+	"golang.org/x/exp/constraints"
 )
 
-func WritePNG(grid [][]int, filename string) error {
+func WritePNG[T constraints.Integer](grid [][]T, filename string) error {
 	img := image.NewRGBA(image.Rect(0, 0, len(grid[0]), len(grid)))
 	for y, row := range grid {
 		for x, cell := range row {

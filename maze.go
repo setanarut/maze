@@ -2,10 +2,12 @@ package maze
 
 import (
 	"math/rand/v2"
+
+	"golang.org/x/exp/constraints"
 )
 
-type Maze struct {
-	Grid          [][]int    // 0: path, 1: wall
+type Maze[T constraints.Integer] struct {
+	Grid          [][]T      // 0: path, 1: wall
 	Visited       [][]bool   // visited cells for DFS
 	Rnd           *rand.Rand // random number generator
 	CellSize      int        // path width in pixels
@@ -14,14 +16,14 @@ type Maze struct {
 	Rows          int        // number of maze cells (height)
 }
 
-func NewMaze(w, h, cellSize, wallThickness int) *Maze {
+func NewMaze[T constraints.Integer](w, h, cellSize, wallThickness int) *Maze[T] {
 	R := h*cellSize + (h+1)*wallThickness
 	C := w*cellSize + (w+1)*wallThickness
 
 	// Pre-allocate matrix
-	mat := make([][]int, R)
+	mat := make([][]T, R)
 	for i := range mat {
-		mat[i] = make([]int, C)
+		mat[i] = make([]T, C)
 	}
 
 	// Pre-allocate visited matrix
@@ -30,7 +32,7 @@ func NewMaze(w, h, cellSize, wallThickness int) *Maze {
 		visited[i] = make([]bool, w)
 	}
 
-	return &Maze{
+	return &Maze[T]{
 		Grid:          mat,
 		Visited:       visited,
 		CellSize:      cellSize,
@@ -38,10 +40,9 @@ func NewMaze(w, h, cellSize, wallThickness int) *Maze {
 		Cols:          w,
 		Rows:          h,
 	}
-
 }
 
-func (m *Maze) Generate(seed1 uint64, seed2 uint64) {
+func (m *Maze[T]) Generate(seed1 uint64, seed2 uint64) {
 	m.Rnd = rand.New(rand.NewPCG(seed1, seed2))
 
 	// Reset matrix to all walls
@@ -62,7 +63,7 @@ func (m *Maze) Generate(seed1 uint64, seed2 uint64) {
 	m.dfs(0, 0)
 }
 
-func (m *Maze) dfs(r, c int) {
+func (m *Maze[T]) dfs(r, c int) {
 	m.Visited[r][c] = true
 
 	// Fill cell area with path (0)
