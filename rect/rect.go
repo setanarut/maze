@@ -236,12 +236,3 @@ func FillRectangle(img *image.RGBA, rect image.Rectangle, fillColor color.Color)
 		}
 	}
 }
-
-// func (mg *MazeGenerator) PixelSize() image.Point {
-// 	return image.Pt(
-// 		mg.Width*mg.CellSize+mg.WallThickness,
-// 		mg.Height*mg.CellSize+mg.WallThickness,
-// 	)
-// }
-
-// maz.Cols*maz.CellSize + (maz.Cols+1)*maz.WallThickness
