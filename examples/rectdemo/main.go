@@ -12,9 +12,9 @@ import (
 func main() {
 	mg := rect.NewMazeGenerator(7, 5, 64, 9)
 	walls := mg.GenerateMaze()
-	img := image.NewRGBA(mg.Bounds())
+	img := image.NewRGBA(image.Rectangle{Max: mg.Size()})
 	fmt.Println(img.Bounds())
 	rect.FillRectangle(img, img.Bounds(), image.Black)
 	rect.DrawWallsToImage(walls, img)
-	imgio.Save("a.png", img, imgio.PNGEncoder())
+	imgio.Save("rect.png", img, imgio.PNGEncoder())
 }

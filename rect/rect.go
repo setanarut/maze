@@ -46,9 +46,9 @@ func NewMazeGenerator(width, height, cellSize, wallThickness int) *MazeGenerator
 	}
 
 	// Initialize grid with all walls present
-	for y := 0; y < height; y++ {
+	for y := range height {
 		mg.Grid[y] = make([]Cell, width)
-		for x := 0; x < width; x++ {
+		for x := range width {
 			mg.Grid[y][x] = Cell{
 				X:       x,
 				Y:       y,
@@ -120,9 +120,16 @@ func (mg *MazeGenerator) getUnvisitedNeighbors(cell *Cell) []*Cell {
 
 	return neighbors
 }
-func (mg *MazeGenerator) Bounds() image.Rectangle {
-	return image.Rect(0, 0, mg.Width*mg.CellSize+mg.WallThickness, mg.Height*mg.CellSize+mg.WallThickness)
 
+// Size returns the size of the maze in pixels.
+//
+// The size is calculated as the number of cells multiplied by the cell size,
+// plus the wall thickness to account for the walls around the maze.
+func (mg *MazeGenerator) Size() image.Point {
+	return image.Point{
+		mg.Width*mg.CellSize + mg.WallThickness,
+		mg.Height*mg.CellSize + mg.WallThickness,
+	}
 }
 
 // removeWall removes the wall between two adjacent cells
@@ -229,3 +236,12 @@ func FillRectangle(img *image.RGBA, rect image.Rectangle, fillColor color.Color)
 		}
 	}
 }
+
+// func (mg *MazeGenerator) PixelSize() image.Point {
+// 	return image.Pt(
+// 		mg.Width*mg.CellSize+mg.WallThickness,
+// 		mg.Height*mg.CellSize+mg.WallThickness,
+// 	)
+// }
+
+// maz.Cols*maz.CellSize + (maz.Cols+1)*maz.WallThickness

@@ -2,6 +2,7 @@
 package maze
 
 import (
+	"image"
 	"math/rand/v2"
 
 	"golang.org/x/exp/constraints"
@@ -145,5 +146,16 @@ func (m *Maze[T]) dfs(r, c int) {
 				m.dfs(nr, nc)
 			}
 		}
+	}
+}
+
+// Size returns the size of the maze in pixels.
+//
+// The size is calculated as the number of cells multiplied by the cell size,
+// plus the wall thickness to account for the walls around the maze.
+func (m *Maze[T]) Size() image.Point {
+	return image.Point{
+		m.Cols*m.CellSize + (m.Cols+1)*m.WallThickness,
+		m.Rows*m.CellSize + (m.Rows+1)*m.WallThickness,
 	}
 }
