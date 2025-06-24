@@ -1,3 +1,4 @@
+// maze is Maze generation package for Go
 package maze
 
 import (
