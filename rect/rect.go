@@ -1,3 +1,4 @@
+// rect is a subpackage for generating labyrinth walls of type []image.Rectangle
 package rect
 
 import (
